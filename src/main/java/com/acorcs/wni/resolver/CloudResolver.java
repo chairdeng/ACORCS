@@ -27,6 +27,7 @@ public class CloudResolver implements IResolver<Cloud>{
             List<Integer> altitudes = (List<Integer>) attributes.get("altitudes");
             cloud.setAltitudes(altitudes.get(0));
         }
+        List points = (List) attributes.get("points");
         return cloud;
     }
 }
