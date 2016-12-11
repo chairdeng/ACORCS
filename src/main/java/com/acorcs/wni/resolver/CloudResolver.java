@@ -1,33 +1,49 @@
 package com.acorcs.wni.resolver;
 
 import com.acorcs.wni.entity.Cloud;
+import com.acorcs.wni.mybatis.mapper.CloudMapper;
+import com.acorcs.wni.mybatis.mapper.WniEntityMapper;
 import com.google.gson.Gson;
-import org.springframework.boot.json.GsonJsonParser;
-
-import java.util.List;
-import java.util.Map;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by 邓超 on 2016/12/9.
  */
+@Component
 public class CloudResolver implements IResolver<Cloud>{
-    private GsonJsonParser parser = new GsonJsonParser();
+    @Autowired
+    private CloudMapper cloudMapper;
+    private static GsonBuilder gsonBuilder = new GsonBuilder();
+    private static Gson gson = gsonBuilder.create();
     @Override
-    public Cloud resolve(Long noticeId,String json) {
+    public Cloud resolve(String json) {
         Cloud cloud = new Cloud();
-        cloud.setNoticeId(noticeId);
-        Map<String,Object> attributes = parser.parseMap(json);
-        cloud.setCloudDistribution((String) attributes.get("cloud_distribution"));
-        cloud.setCloudType((String) attributes.get("cloud_type"));
-        cloud.setAirframeIcing((String)attributes.get("airframe_icing"));
-        if(attributes.get("extended_degree") != null) {
-            cloud.setExtendedDegree(Integer.valueOf((String) attributes.get("extended_degree")));
+        JsonObject jsonObject = gson.fromJson(json,JsonObject.class);
+        cloud.setCloudDistribution(jsonObject.get("cloud_distribution").getAsString());
+        cloud.setCloudType(jsonObject.get("cloud_type").getAsString());
+        cloud.setAirframeIcing(jsonObject.get("airframe_icing").getAsString());
+        if(jsonObject.get("extended_degree") != null) {
+            cloud.setExtendedDegree(jsonObject.get("extended_degree").getAsInt());
         }
-        if(attributes.get("altitudes") != null) {
-            List<Integer> altitudes = (List<Integer>) attributes.get("altitudes");
-            cloud.setAltitudes(altitudes.get(0));
+        if(jsonObject.get("altitudes") != null) {
+            JsonArray altitudes = jsonObject.get("altitudes").getAsJsonArray();
+            cloud.setAltitudes(altitudes.get(0).getAsInt());
         }
-        List points = (List) attributes.get("points");
+        cloud.setOriginal(jsonObject.get("points").toString());
+        JsonArray points = jsonObject.get("points").getAsJsonArray();
+        /**
+         * TODO
+         * 创建Polygon
+         */
         return cloud;
+    }
+
+    @Override
+    public WniEntityMapper<Cloud> getMapper() {
+        return cloudMapper;
     }
 }
