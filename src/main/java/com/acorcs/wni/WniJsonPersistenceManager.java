@@ -61,6 +61,7 @@ public class WniJsonPersistenceManager {
                 }else {
                     WniEntityMapper mapper = resolver.getMapper();
                     WniEntity entity = resolver.resolve(item.toString());
+                    entity.setHeader(handler);
                     entity.setNoticeId(notice.getId());
                     mapper.save(entity);
                 }
