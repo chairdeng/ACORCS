@@ -15,8 +15,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CloudResolver implements IResolver<Cloud>{
+
     @Autowired
     private CloudMapper cloudMapper;
+
     private static GsonBuilder gsonBuilder = new GsonBuilder();
     private static Gson gson = gsonBuilder.create();
     @Override

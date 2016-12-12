@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resolvers>
+    <resolver>
+        <header>JUBE99</header>
+        <contentsKind>CLOUD</contentsKind>
+        <class>com.acorcs.wni.resolver.CloudResolver</class>
+    </resolver>
+    <resolver>
+        <header>JUNE00</header>
+        <contentsKind>CLOUD</contentsKind>
+        <class>com.acorcs.wni.resolver.CloudResolver</class>
+    </resolver>
+    <resolver>
+        <header>JUTE00</header>
+        <contentsKind>JET STREAM</contentsKind>
+        <class>com.acorcs.wni.resolver.JetStreamResolver</class>
+    </resolver>
+    <resolver>
+        <header>JUWE96</header>
+        <contentsKind>JET STREAM</contentsKind>
+        <class>com.acorcs.wni.resolver.JetStreamResolver</class>
+    </resolver>
+    <resolver>
+        <header>JUOE00</header>
+        <contentsKind>TROPOPAUSE</contentsKind>
+        <class>com.acorcs.wni.resolver.TropopauseResolver</class>
+    </resolver>
+    <resolver>
+        <header>JUTE97</header>
+        <contentsKind>TROPOPAUSE</contentsKind>
+        <class>com.acorcs.wni.resolver.TropopauseResolver</class>
+    </resolver>
+    <resolver>
+        <header>JUCE00</header>
+        <contentsKind>TURBULENCE</contentsKind>
+        <class>com.acorcs.wni.resolver.TurbulenceResolver</class>
+    </resolver>
+    <resolver>
+        <header>JUME00</header>
+        <contentsKind>TURBULENCE</contentsKind>
+        <class>com.acorcs.wni.resolver.TurbulenceResolver</class>
+    </resolver>
+    <resolver>
+        <header>JUVE00</header>
+        <contentsKind>VOLCANO</contentsKind>
+        <class>com.acorcs.wni.resolver.VolcanoResolver</class>
+    </resolver>
+    <resolver>
+        <header>JUVE00</header>
+        <contentsKind>STORM CENTRE</contentsKind>
+        <class>com.acorcs.wni.resolver.StormCenterResolver</class>
+    </resolver>
+</resolvers>
