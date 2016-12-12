@@ -10,6 +10,9 @@ import com.vividsolutions.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by 邓超 on 2016/12/9.
  */
@@ -27,8 +30,12 @@ public class CloudResolver implements IResolver<Cloud>{
     public Cloud resolve(String json) {
         Cloud cloud = new Cloud();
         JsonObject jsonObject = gson.fromJson(json,JsonObject.class);
-        cloud.setCloudDistribution(jsonObject.get("cloud_distribution").getAsString());
-        cloud.setCloudType(jsonObject.get("cloud_type").getAsString());
+        if(jsonObject.get("cloud_distribution")!=null) {
+            cloud.setCloudDistribution(jsonObject.get("cloud_distribution").getAsString());
+        }
+        if (jsonObject.get("cloud_type")!=null){
+            cloud.setCloudType(jsonObject.get("cloud_type").getAsString());
+        }
         if(jsonObject.get("airframe_icing")!=null) {
             cloud.setAirframeIcing(jsonObject.get("airframe_icing").getAsString());
         }
@@ -43,15 +50,24 @@ public class CloudResolver implements IResolver<Cloud>{
                 cloud.setAltitudes(altitudes.get(0).getAsInt());
             }
         }
-        cloud.setOriginal(jsonObject.get("points").toString());
         JsonArray points = jsonObject.get("points").getAsJsonArray();
-        Coordinate[] coordinates = new Coordinate[points.size()];
-        for(int i=0;i<points.size();i++){
-            JsonElement point = points.get(i);
+//        cloud.setOriginal(points.toString());
+
+        List<Coordinate> coordinates = new ArrayList<Coordinate>();
+        for(JsonElement point:points){
+
             Coordinate coordinate = new Coordinate(point.getAsJsonArray().get(0).getAsDouble(),point.getAsJsonArray().get(1).getAsDouble());
-            coordinates[i] = coordinate;
+            coordinates.add(coordinate);
         }
-        Polygon polygon = geometryFactory.createPolygon(coordinates);
+        if(!coordinates.get(0).equals(coordinates.get(coordinates.size()-1))){
+            coordinates.add((Coordinate)coordinates.get(0).clone());
+        }
+        Polygon polygon = null;
+        try {
+            polygon = geometryFactory.createPolygon(coordinates.toArray(new Coordinate[coordinates.size()]));
+        }catch (IllegalArgumentException ex){
+            ex.printStackTrace();
+        }
         cloud.setGeographic(polygon);
 
         return cloud;

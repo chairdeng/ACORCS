@@ -10,10 +10,12 @@ import com.google.gson.JsonObject;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by 邓超 on 2016/12/12.
  */
+@Component
 public class VolcanoResolver implements IResolver<Volcano> {
     @Autowired
     private VolcanoMapper volcanoMapper;
@@ -31,7 +33,7 @@ public class VolcanoResolver implements IResolver<Volcano> {
         String specialClouds = jsonObject.get("special_clouds").getAsString();
         volcano.setSpecialClouds(specialClouds);
         JsonArray points = jsonObject.get("points").getAsJsonArray();
-        volcano.setOriginal(points.toString());
+//        volcano.setOriginal(points.toString());
         JsonArray point = points.get(0).getAsJsonArray();
         volcano.setGeographic(geometryFactory.createPoint(new Coordinate(point.get(0).getAsDouble(),point.get(1).getAsDouble())));
         return volcano;

@@ -10,10 +10,12 @@ import com.google.gson.JsonObject;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by 邓超 on 2016/12/12.
  */
+@Component
 public class StormCenterResolver implements IResolver<StormCenter> {
     @Autowired
     private StormCenterMapper stormCenterMapper;
@@ -29,7 +31,7 @@ public class StormCenterResolver implements IResolver<StormCenter> {
         String type = jsonObject.get("type").getAsString();
         stormCenter.setType(type);
         JsonArray points = jsonObject.get("points").getAsJsonArray();
-        stormCenter.setOriginal(points.toString());
+//        stormCenter.setOriginal(points.toString());
         JsonArray point = points.get(0).getAsJsonArray();
         stormCenter.setGeographic(geometryFactory.createPoint(new Coordinate(point.get(0).getAsDouble(),point.get(1).getAsDouble())));
         return stormCenter;

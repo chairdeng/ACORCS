@@ -9,8 +9,8 @@ import java.util.List;
  * Created by dengc on 2016/12/11.
  */
 public interface VolcanoMapper  extends WniEntityMapper<Volcano> {
-    @Insert("INSERT INTO wni_volcano (notice_id,header,feature_name,time_significance,special_clouds,geographic,original) " +
-            "VALUES (#{noticeId},#{header},#{featureName},#{timeSignificance},#{specialClouds},GeomFromText(#{geographic},4326),#{original})")
+    @Insert("INSERT INTO wni_volcano (notice_id,header,feature_name,time_significance,special_clouds,geographic) " +
+            "VALUES (#{noticeId},#{header},#{featureName},#{timeSignificance},#{specialClouds},GeomFromText(#{geographic},4326))")
     @SelectKey(keyProperty = "id",resultType = long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
     public int save(Volcano volcano);
 

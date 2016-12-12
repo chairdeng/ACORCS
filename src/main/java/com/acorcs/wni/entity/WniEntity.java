@@ -11,5 +11,5 @@ public abstract class WniEntity {
     private String header;
     private long noticeId;
     private Notice notice;
-    private String original;
+//    private String original;
 }

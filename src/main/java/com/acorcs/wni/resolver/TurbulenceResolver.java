@@ -8,10 +8,15 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 邓超 on 2016/12/12.
  */
+@Component
 public class TurbulenceResolver implements IResolver<Turbulence> {
     @Autowired
     private TurbulenceMapper turbulenceMapper;
@@ -31,15 +36,23 @@ public class TurbulenceResolver implements IResolver<Turbulence> {
         }
         turbulence.setAltitudes(altitudeArr);
         JsonArray points = jsonObject.get("points").getAsJsonArray();
-        Coordinate[] coordinates = new Coordinate[points.size()];
-        for(int i=0;i<points.size();i++){
-            JsonElement point = points.get(i);
+        List<Coordinate> coordinates = new ArrayList<Coordinate>();
+        for(JsonElement point:points){
+
             Coordinate coordinate = new Coordinate(point.getAsJsonArray().get(0).getAsDouble(),point.getAsJsonArray().get(1).getAsDouble());
-            coordinates[i] = coordinate;
+            coordinates.add(coordinate);
         }
-        Polygon polygon = geometryFactory.createPolygon(coordinates);
+        if(!coordinates.get(0).equals(coordinates.get(coordinates.size()-1))){
+            coordinates.add((Coordinate)coordinates.get(0).clone());
+        }
+        Polygon polygon = null;
+        try {
+            polygon = geometryFactory.createPolygon(coordinates.toArray(new Coordinate[coordinates.size()]));
+        }catch (IllegalArgumentException ex){
+            ex.printStackTrace();
+        }
         turbulence.setGeographic(polygon);
-        turbulence.setOriginal(points.toString());
+//        turbulence.setOriginal(points.toString());
         return turbulence;
     }
 

@@ -55,7 +55,7 @@ public class WniJsonPersistenceManager {
         JsonObject body = jsonObject.get("body").getAsJsonObject();
         for(Map.Entry<String, JsonElement> entry : body.entrySet()){
             String handler = entry.getKey();
-            JsonArray bodyArray = body.get("body").getAsJsonArray();
+            JsonArray bodyArray = body.get(handler).getAsJsonObject().get("body").getAsJsonArray();
             for(JsonElement jsonElement:bodyArray){
                 JsonObject item = jsonElement.getAsJsonObject();
                 String contentsKind = item.get("contents_kind").getAsString();

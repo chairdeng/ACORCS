@@ -7,10 +7,12 @@ import com.google.gson.*;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by 邓超 on 2016/12/12.
  */
+@Component
 public class TropopauseResolver implements IResolver<Tropopause>{
     @Autowired
     private TropopauseMapper tropopauseMapper;
@@ -29,11 +31,11 @@ public class TropopauseResolver implements IResolver<Tropopause>{
         Coordinate[] coordinates = new Coordinate[points.size()];
         for(int i=0;i<points.size();i++){
             JsonElement point = points.get(i);
-            Coordinate coordinate = new Coordinate(point.getAsJsonArray().get(0).getAsDouble(),point.getAsJsonArray().get(1).getAsDouble());
+            Coordinate coordinate = new Coordinate(point.getAsJsonArray().get(0).getAsDouble(),point.getAsJsonArray().get(1).getAsDouble(),point.getAsJsonArray().get(2).getAsDouble());
             coordinates[i] = coordinate;
         }
         tropopause.setGeographic(geometryFactory.createMultiPoint(coordinates));
-        tropopause.setOriginal(points.toString());
+//        tropopause.setOriginal(points.toString());
         return tropopause;
     }
 

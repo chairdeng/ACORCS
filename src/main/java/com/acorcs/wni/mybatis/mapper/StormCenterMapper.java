@@ -10,8 +10,8 @@ import java.util.List;
  * Created by dengc on 2016/12/11.
  */
 public interface StormCenterMapper extends WniEntityMapper<StormCenter> {
-    @Insert("INSERT INTO wni_storm_center (notice_id,header,storm_name,type,geographic,original) " +
-            "VALUES (#{noticeId},#{header},#{stormName},#{type},GeomFromText(#{geographic},4326),#{original})")
+    @Insert("INSERT INTO wni_storm_center (notice_id,header,storm_name,type,geographic) " +
+            "VALUES (#{noticeId},#{header},#{stormName},#{type},GeomFromText(#{geographic},4326))")
     @SelectKey(keyProperty = "id",resultType = long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
     public int save(StormCenter stormCenter);
     @Select("select id,notice_id,header,storm_name,AsBinary(geographic) as geographic,original from wni_storm_name where notice_id=#{noticeId}")

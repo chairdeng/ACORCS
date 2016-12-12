@@ -27,7 +27,7 @@ public class JetStreamResolver implements IResolver<JetStream> {
         JetStream jetStream = new JetStream();
         JsonObject jsonObject = gson.fromJson(json,JsonObject.class);
         JsonArray points = jsonObject.get("points").getAsJsonArray();
-        jetStream.setOriginal(points.toString());
+//        jetStream.setOriginal(points.toString());
         Coordinate[] coordinates = new Coordinate[points.size()];
         for(int i=0;i<points.size();i++){
             JsonElement point = points.get(i);

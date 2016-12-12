@@ -11,9 +11,9 @@ import java.util.List;
 @CacheNamespace(size = 2048)
 public interface CloudMapper extends WniEntityMapper<Cloud> {
     @Insert("INSERT INTO wni_cloud" +
-            " (header, notice_id,cloud_distribution, cloud_type,altitudes, airframe_icing,extended_degree, geographic, original)" +
+            " (header, notice_id,cloud_distribution, cloud_type,altitudes, airframe_icing,extended_degree, geographic)" +
             "VALUES (#{header}, #{noticeId},#{cloudDistribution}, #{cloudType},#{altitudes}, " +
-            "#{airframeIcing},#{extendedDegree}, GeomFromText(#{geographic},4326), #{original})")
+            "#{airframeIcing},#{extendedDegree}, GeomFromText(#{geographic},4326))")
     @SelectKey(keyProperty = "id",resultType = long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
     public int save(Cloud cloud);
 
