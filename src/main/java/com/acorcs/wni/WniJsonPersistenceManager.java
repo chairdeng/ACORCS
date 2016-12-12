@@ -25,7 +25,9 @@ import java.util.Map;
 @Component
 public class WniJsonPersistenceManager {
     @Autowired
-    private NoticeMapper noticeMapper;
+    protected NoticeMapper noticeMapper;
+    @Autowired
+    private ResolverFactory resolverFactory;
     private GsonJsonParser parser = new GsonJsonParser();
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
     private static GsonBuilder gsonBuilder = new GsonBuilder();
@@ -55,7 +57,7 @@ public class WniJsonPersistenceManager {
             for(JsonElement jsonElement:bodyArray){
                 JsonObject item = jsonElement.getAsJsonObject();
                 String contentsKind = item.get("contents_kind").getAsString();
-                IResolver resolver = ResolverFactory.getResolver(handler,contentsKind);
+                IResolver resolver = resolverFactory.getResolver(handler,contentsKind);
                 if(resolver == null){
                     logger.error("暂不支持"+handler+":"+contentsKind+"类型的转换");
                 }else {
