@@ -37,7 +37,11 @@ public class CloudResolver implements IResolver<Cloud>{
         }
         if(jsonObject.get("altitudes") != null) {
             JsonArray altitudes = jsonObject.get("altitudes").getAsJsonArray();
-            cloud.setAltitudes(altitudes.get(0).getAsInt());
+            if(altitudes.get(0).getAsInt()<0 && altitudes.size()>1) {
+                cloud.setAltitudes(altitudes.get(1).getAsInt());
+            }else {
+                cloud.setAltitudes(altitudes.get(0).getAsInt());
+            }
         }
         cloud.setOriginal(jsonObject.get("points").toString());
         JsonArray points = jsonObject.get("points").getAsJsonArray();

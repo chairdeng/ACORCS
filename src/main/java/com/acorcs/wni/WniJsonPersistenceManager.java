@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,6 +34,7 @@ public class WniJsonPersistenceManager {
     private static GsonBuilder gsonBuilder = new GsonBuilder();
     private static Gson gson = gsonBuilder.create();
     private DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+    @Transactional
     public void transformAndSave(String json){
         JsonObject jsonObject = gson.fromJson(json,JsonObject.class);
         String type = jsonObject.get("type").getAsString();
