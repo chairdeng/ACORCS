@@ -41,7 +41,7 @@ public class TestCloudMapper {
             e.printStackTrace();
         }
         cloud.setGeographic(polygon);
-        cloud.setOriginal("Polygon((44.22 7.00,44.63 10.70,45.71 12.28,46.00 15.00,46.62 16.54,44.22 7.00))");
+//        cloud.setOriginal("Polygon((44.22 7.00,44.63 10.70,45.71 12.28,46.00 15.00,46.62 16.54,44.22 7.00))");
         cloudMapper.save(cloud);
         assertThat(cloud.getId()).as("校验主键").isGreaterThan(0);
 

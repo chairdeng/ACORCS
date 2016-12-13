@@ -26,7 +26,7 @@ public class GeoTypeHandler implements TypeHandler<Geometry>{
     private WKTWriter wktWriter = new WKTWriter();
     @Override
     public void setParameter(PreparedStatement preparedStatement, int i, Geometry geometry, JdbcType jdbcType) throws SQLException {
-        String wkt = wktWriter.write(geometry);
+        String  wkt = wktWriter.write(geometry);
         preparedStatement.setString(i,wkt);
     }
 

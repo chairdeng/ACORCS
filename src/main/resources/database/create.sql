@@ -26,7 +26,6 @@ CREATE TABLE `wni_storm_center` (
   `storm_name` varchar(32) DEFAULT NULL,
   `type` varchar(16) DEFAULT NULL,
   `geographic` point DEFAULT NULL,
-  `original` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `notice_id` (`notice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -45,7 +44,6 @@ CREATE TABLE `wni_cloud` (
   `airframe_icing` varchar(64) DEFAULT NULL,
   `extended_degree` int(11) DEFAULT NULL,
   `geographic` polygon DEFAULT NULL,
-  `original` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `notice_id` (`notice_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
@@ -59,7 +57,6 @@ CREATE TABLE `wni_jet_stream` (
   `notice_id` bigint(20) DEFAULT NULL,
   `header` varchar(16) DEFAULT NULL,
   `geographic` linestring DEFAULT NULL,
-  `original` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `notice_id` (`notice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -90,8 +87,8 @@ CREATE TABLE `wni_tropopause` (
   `notice_id` bigint(20) DEFAULT NULL,
   `header` varchar(16) DEFAULT NULL,
   `significance` varchar(64) DEFAULT NULL,
+  `altitudes` varchar(2048) DEFAULT NULL,
   `geographic` multipoint DEFAULT NULL,
-  `original` varchar(4096) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `notice_id` (`notice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -107,7 +104,6 @@ CREATE TABLE `wni_turbulence` (
   `extended_degree` int(11) DEFAULT NULL,
   `altitudes` varchar(128) DEFAULT NULL,
   `geographic` polygon DEFAULT NULL,
-  `original` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `notice_id` (`notice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -124,7 +120,6 @@ CREATE TABLE `wni_volcano` (
   `time_significance` varchar(64) DEFAULT NULL,
   `special_clouds` varchar(32) DEFAULT NULL,
   `geographic` point DEFAULT NULL,
-  `original` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `notice_id` (`notice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

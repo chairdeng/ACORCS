@@ -63,13 +63,14 @@ public class CloudResolver implements IResolver<Cloud>{
             coordinates.add((Coordinate)coordinates.get(0).clone());
         }
         Polygon polygon = null;
-        try {
-            polygon = geometryFactory.createPolygon(coordinates.toArray(new Coordinate[coordinates.size()]));
-        }catch (IllegalArgumentException ex){
-            ex.printStackTrace();
+        if(coordinates.size() >= 4) {
+            try {
+                polygon = geometryFactory.createPolygon(coordinates.toArray(new Coordinate[coordinates.size()]));
+            } catch (IllegalArgumentException ex) {
+                ex.printStackTrace();
+            }
+            cloud.setGeographic(polygon);
         }
-        cloud.setGeographic(polygon);
-
         return cloud;
     }
 

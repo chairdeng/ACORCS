@@ -14,11 +14,10 @@ public interface StormCenterMapper extends WniEntityMapper<StormCenter> {
             "VALUES (#{noticeId},#{header},#{stormName},#{type},GeomFromText(#{geographic},4326))")
     @SelectKey(keyProperty = "id",resultType = long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
     public int save(StormCenter stormCenter);
-    @Select("select id,notice_id,header,storm_name,AsBinary(geographic) as geographic,original from wni_storm_name where notice_id=#{noticeId}")
+    @Select("select id,notice_id,header,storm_name,type,AsBinary(geographic) as geographic from wni_storm_center where notice_id=#{noticeId}")
     @Results({
-            @Result(property = "geographic",column = "geographic",jdbcType = JdbcType.BLOB,javaType = com.vividsolutions.jts.geom.Point.class),
             @Result(property = "notice",column = "notice_id",one = @One(select = "com.acorcs.wni.mybatis.mapper.NoticeMapper.getNotice")),
             @Result(property = "noticeId",column = "notice_id")
     })
-    public List<StormCenter> findByNoticeId(@Param("noticeId") Long noticeId);
+    public List<StormCenter> findByNoticeId(Long noticeId);
 }

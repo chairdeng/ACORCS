@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class TropopauseResolver implements IResolver<Tropopause>{
     @Autowired
     private TropopauseMapper tropopauseMapper;
+
     private GsonBuilder gsonBuilder = new GsonBuilder();
     private Gson gson = gsonBuilder.create();
     private GeometryFactory geometryFactory = new GeometryFactory();
@@ -29,11 +30,14 @@ public class TropopauseResolver implements IResolver<Tropopause>{
         }
         JsonArray points = jsonObject.get("points").getAsJsonArray();
         Coordinate[] coordinates = new Coordinate[points.size()];
+        Integer[] altitudes = new Integer[points.size()];
         for(int i=0;i<points.size();i++){
-            JsonElement point = points.get(i);
-            Coordinate coordinate = new Coordinate(point.getAsJsonArray().get(0).getAsDouble(),point.getAsJsonArray().get(1).getAsDouble(),point.getAsJsonArray().get(2).getAsDouble());
+            JsonArray point = points.get(i).getAsJsonArray();
+            Coordinate coordinate = new Coordinate(point.get(0).getAsDouble(),point.get(1).getAsDouble(),point.get(2).getAsDouble());
             coordinates[i] = coordinate;
+            altitudes[i] = point.get(2).getAsInt();
         }
+        tropopause.setAltitudes(altitudes);
         tropopause.setGeographic(geometryFactory.createMultiPoint(coordinates));
 //        tropopause.setOriginal(points.toString());
         return tropopause;
