@@ -29,7 +29,6 @@ public class WniJsonPersistenceManager {
     protected NoticeMapper noticeMapper;
     @Autowired
     private ResolverFactory resolverFactory;
-    private GsonJsonParser parser = new GsonJsonParser();
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
     private static GsonBuilder gsonBuilder = new GsonBuilder();
     private static Gson gson = gsonBuilder.create();
@@ -41,8 +40,8 @@ public class WniJsonPersistenceManager {
         String elem = jsonObject.get("elem").getAsString();
         String dataname = jsonObject.get("dataname").getAsString();
         Date updated = convert2Date(jsonObject.get("updated").getAsString());
-        Date basetime = convert2Date(jsonObject.get("updated").getAsString());
-        Date validtime = convert2Date(jsonObject.get("updated").getAsString());
+        Date basetime = convert2Date(jsonObject.get("basetime").getAsString());
+        Date validtime = convert2Date(jsonObject.get("validtime").getAsString());
         Notice notice = new Notice();
         notice.setType(type);
         notice.setElem(elem);
@@ -67,7 +66,13 @@ public class WniJsonPersistenceManager {
                     WniEntity entity = resolver.resolve(item.toString());
                     entity.setHeader(handler);
                     entity.setNoticeId(notice.getId());
-                    mapper.save(entity);
+                    try {
+                        mapper.save(entity);
+                    }catch (Exception e){
+                        logger.error(dateFormat.format(basetime));
+                        logger.error(e.getMessage(),e.getCause());
+                    }
+
                 }
             }
         }
