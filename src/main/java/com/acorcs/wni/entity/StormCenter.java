@@ -16,4 +16,8 @@ public class StormCenter extends WniEntity<Point> implements Serializable {
     private String type;
 
 
+    @Override
+    public String getContentsKind() {
+        return "STORM CENTRE";
+    }
 }

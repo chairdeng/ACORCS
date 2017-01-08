@@ -13,4 +13,8 @@ import java.io.Serializable;
 public class JetStream extends WniEntity<LineString> implements Serializable {
 
 
+    @Override
+    public String getContentsKind() {
+        return "JET STREAM";
+    }
 }

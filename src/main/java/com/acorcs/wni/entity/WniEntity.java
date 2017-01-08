@@ -1,8 +1,10 @@
 package com.acorcs.wni.entity;
 
+import com.acorcs.wni.web.serializer.GeometryDeserializer;
 import com.acorcs.wni.web.serializer.GeometrySerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.vividsolutions.jts.geom.Geometry;
 import lombok.Data;
@@ -21,6 +23,8 @@ public abstract class WniEntity<T extends Geometry> {
     private Notice notice;
 
     @JsonSerialize(using = GeometrySerializer.class)
+    @JsonDeserialize(using = GeometryDeserializer.class)
     private T geographic;
 
+    public abstract String getContentsKind();
 }

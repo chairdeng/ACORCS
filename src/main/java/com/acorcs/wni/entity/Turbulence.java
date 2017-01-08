@@ -14,4 +14,8 @@ public class Turbulence extends WniEntity<Polygon> implements Serializable {
     private int extendedDegree;
     private Integer[] altitudes;
 
+    @Override
+    public String getContentsKind() {
+        return "TURBULENCE";
+    }
 }

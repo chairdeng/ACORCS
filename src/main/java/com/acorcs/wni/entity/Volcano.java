@@ -15,4 +15,8 @@ public class Volcano extends WniEntity<Point> implements Serializable {
     private String timeSignificance;
     private String specialClouds;
 
+    @Override
+    public String getContentsKind() {
+        return "VOLCANO";
+    }
 }

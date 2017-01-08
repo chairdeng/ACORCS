@@ -15,4 +15,9 @@ public class Tropopause extends WniEntity<MultiPoint> implements Serializable {
     private String significance;
 
     private Integer[] altitudes;
+
+    @Override
+    public String getContentsKind() {
+        return "TROPOPAUSE";
+    }
 }

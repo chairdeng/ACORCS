@@ -18,4 +18,8 @@ public class Cloud extends WniEntity<Polygon> implements Serializable {
     private String airframeIcing;
     private int extendedDegree;
 
+    @Override
+    public String getContentsKind() {
+        return "CLOUD";
+    }
 }

@@ -1,5 +1,7 @@
 package com.acorcs.wni.mybatis.mapper;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import java.util.List;
 
 /**
@@ -7,5 +9,6 @@ import java.util.List;
  */
 public interface WniEntityMapper<T> {
     public int save(T t);
+
     public List<T> findByNoticeId(long noticeId);
 }
