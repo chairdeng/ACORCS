@@ -3,6 +3,7 @@ package com.acorcs.wni.mybatis.mapper;
 import com.acorcs.wni.entity.Tropopause;
 import com.acorcs.wni.entity.Turbulence;
 import org.apache.ibatis.annotations.*;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -16,10 +17,11 @@ public interface TurbulenceMapper  extends WniEntityMapper<Turbulence> {
     @SelectKey(keyProperty = "id",resultType = long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
     public int save(Turbulence turbulence);
 
+    @Cacheable(value = "wni_turbulence",key = "#noticeId")
     @Select("SELECT id,notice_id,header,extended_degree,altitudes,AsBinary(geographic) as geographic FROM wni_turbulence WHERE notice_id=#{noticeId}")
     @Results({
             @Result(property = "notice",column = "notice_id",one = @One(select = "com.acorcs.wni.mybatis.mapper.NoticeMapper.getNotice")),
             @Result(property = "noticeId",column = "notice_id")
     })
-    public List<Turbulence> findByNoticeId(long noticeId);
+    public List<Turbulence> findByNoticeId(Long noticeId);
 }

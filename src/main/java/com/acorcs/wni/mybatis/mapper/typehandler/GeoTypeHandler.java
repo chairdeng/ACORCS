@@ -26,18 +26,27 @@ public class GeoTypeHandler implements TypeHandler<Geometry>{
     private WKTWriter wktWriter = new WKTWriter();
     @Override
     public void setParameter(PreparedStatement preparedStatement, int i, Geometry geometry, JdbcType jdbcType) throws SQLException {
-        String  wkt = wktWriter.write(geometry);
-        preparedStatement.setString(i,wkt);
+
+        if(geometry != null) {
+            String wkt = wktWriter.write(geometry);
+            preparedStatement.setString(i,wkt);
+        }else{
+            preparedStatement.setString(i,null);
+        }
+
     }
 
     @Override
     public Geometry getResult(ResultSet resultSet, String s) throws SQLException {
-
-        try {
-            return wkbReader.read(resultSet.getBytes(s));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(resultSet.getBytes(s) == null){
             return null;
+        }else {
+            try {
+                return wkbReader.read(resultSet.getBytes(s));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
 
     }

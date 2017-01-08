@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by dengc on 2016/12/10.
  */
@@ -17,4 +20,7 @@ public interface NoticeMapper {
 
     @Select("SELECT id,type,elem,dataname,updated,basetime,validtime FROM wni_notice WHERE id=#{noticeId}")
     public Notice getNotice(long noticdId);
+
+    @Select("SELECT id,type,elem,dataname,updated,basetime,validtime FROM wni_notice WHERE #{queryTime} BETWEEN basetime AND validtime")
+    public List<Notice> getValidNotice(Date queryTime);
 }

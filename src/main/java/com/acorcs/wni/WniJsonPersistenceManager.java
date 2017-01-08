@@ -69,7 +69,6 @@ public class WniJsonPersistenceManager {
                     try {
                         mapper.save(entity);
                     }catch (Exception e){
-                        logger.error(dateFormat.format(basetime));
                         logger.error(e.getMessage(),e.getCause());
                     }
 
