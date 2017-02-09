@@ -25,3 +25,11 @@ mvn clean package
 java -Dspring.profiles.active=prod -jar wni-1.0.0.jar
 `
 -Dspring.profiles.active=prod 意为执行配置文件为application-prod.properties
+#系统接口调用
+##调用方式
+系统接口调用方式为Restful风格，支持GET和POST两种请求方式。如果请求报文较大建议使用POST方式进行请求。
+##请求地址
+http://{部署服务器IP地址}:{部署端口默认8080}/spatial/affected
+##请求参数
+1.geometry（必选） 要查询的几何形状，格式为GeoJSON格式，支持Point和LineString类型。
+2.queryTime（可选）要查询的时间点，格式为yyyy-MM-dd HH:mm:ss，需要精确到秒，默认为当前时间。
