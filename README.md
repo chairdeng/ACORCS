@@ -34,7 +34,6 @@ http://{部署服务器IP地址}:{部署端口默认8080}/spatial/affected
 * geometry（必选） 要查询的几何形状，格式为GeoJSON格式，支持Point和LineString类型。
 * queryTime（可选）要查询的时间点，格式为yyyy-MM-dd HH:mm:ss，需要精确到秒，默认为当前时间。
 ##返回数据
-
 返回数据格式为JSON   
 返回数据为对该点或线有影响的WNI数据清单。如果没有任何影响则返回“[]”   
 如果返回数据中不为空，则列表中的每一项都为一个WNI数据实体。
