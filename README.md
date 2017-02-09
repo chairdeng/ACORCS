@@ -33,3 +33,11 @@ http://{部署服务器IP地址}:{部署端口默认8080}/spatial/affected
 ##请求参数
 * geometry（必选） 要查询的几何形状，格式为GeoJSON格式，支持Point和LineString类型。
 * queryTime（可选）要查询的时间点，格式为yyyy-MM-dd HH:mm:ss，需要精确到秒，默认为当前时间。
+##返回数据
+
+##错误码
+HttpStatus:200以外所有码都为错误。
+##调用事例
+
+GET方式调用
+>http://localhost:8080/spatial/affected?geometry={ "type": "Point", "coordinates": [42.44, 18.6] }&queryTime=2016-01-15 13:00:00
