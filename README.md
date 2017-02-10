@@ -8,7 +8,7 @@ application-prod.properties为生产环境配置文件，请在该配置中设�
 在线上MySQL创建库并执行database/create.sql中的SQL脚本
 
 ## Maven打包
-1. 将Maven配置文件中增加阿里云的Maven镜像
+1.将Maven配置文件中增加阿里云的Maven镜像
 ```xml
 <mirror>
     <id>nexus-aliyun</id>
@@ -17,7 +17,8 @@ application-prod.properties为生产环境配置文件，请在该配置中设�
     <url>http://maven.aliyun.com/nexus/content/groups/public</url>
 </mirror> 
 ```
-2. Maven打包
+2.Maven打包
+
 执行
 `
 mvn clean package
