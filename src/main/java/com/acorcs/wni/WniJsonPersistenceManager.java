@@ -7,6 +7,7 @@ import com.acorcs.wni.mybatis.mapper.WniEntityMapper;
 import com.acorcs.wni.resolver.IResolver;
 import com.acorcs.wni.resolver.ResolverFactory;
 import com.google.gson.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +25,18 @@ import java.util.Map;
  * Created by dengc on 2016/12/11.
  */
 @Component
+@Slf4j
 public class WniJsonPersistenceManager {
     @Autowired
     protected NoticeMapper noticeMapper;
     @Autowired
     private ResolverFactory resolverFactory;
-    protected Logger logger = LoggerFactory.getLogger(this.getClass());
     private static GsonBuilder gsonBuilder = new GsonBuilder();
     private static Gson gson = gsonBuilder.create();
     private DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
     @Transactional
     public void transformAndSave(String json){
+
         JsonObject jsonObject = gson.fromJson(json,JsonObject.class);
         String type = jsonObject.get("type").getAsString();
         String elem = jsonObject.get("elem").getAsString();
@@ -60,7 +62,7 @@ public class WniJsonPersistenceManager {
                 String contentsKind = item.get("contents_kind").getAsString();
                 IResolver resolver = resolverFactory.getResolver(handler,contentsKind);
                 if(resolver == null){
-                    logger.error("暂不支持"+handler+":"+contentsKind+"类型的转换");
+                    log.error("暂不支持"+handler+":"+contentsKind+"类型的转换");
                 }else {
                     WniEntityMapper mapper = resolver.getMapper();
                     WniEntity entity = resolver.resolve(item.toString());
@@ -69,7 +71,7 @@ public class WniJsonPersistenceManager {
                     try {
                         mapper.save(entity);
                     }catch (Exception e){
-                        logger.error(e.getMessage(),e.getCause());
+                        log.error(e.getMessage(),e.getCause());
                     }
 
                 }

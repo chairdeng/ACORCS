@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
@@ -23,14 +24,20 @@ import java.util.Date;
  * Created by dengc on 2016/12/4.
  */
 @Service
+@Slf4j
 public class ReceiveListener {
-    protected Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private WniJsonPersistenceManager jsonPersistenceManager;
     @RabbitListener(queues = "${wni.rabbitmq.queue}")
     @RabbitHandler
     public void process(@Payload Message payload) throws ParseException {
         String context = new String(payload.getBody());
-        jsonPersistenceManager.transformAndSave(context);
+        log.debug(context);
+        try {
+            jsonPersistenceManager.transformAndSave(context);
+        }catch (Exception e){
+            log.error(e.getMessage(), e.getCause());
+            log.error(context);
+        }
     }
 }

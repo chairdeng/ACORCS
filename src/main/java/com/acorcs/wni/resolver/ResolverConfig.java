@@ -6,6 +6,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 @Component
 @Logger
+@CacheConfig(cacheNames="resolvers")
 public class ResolverConfig {
     @Value("classpath:config/resolver_config.xml")
     private Resource resolverConfigFile;
@@ -30,7 +32,7 @@ public class ResolverConfig {
         Document doc = reader.read(resolverConfigFile.getInputStream());
         root = doc.getRootElement();
     }
-    @Cacheable(cacheNames="local",key="#header+'@'+#contentsKind")
+    @Cacheable(key="#header+'@'+#contentsKind")
     public Class getResolverClass(String header,String contentsKind){
         List<Element> resolvers = root.elements("resolver");
         for(Element resolver:resolvers){
