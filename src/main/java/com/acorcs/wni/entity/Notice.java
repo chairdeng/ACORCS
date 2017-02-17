@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 public class Notice implements Serializable {
     @JsonIgnore
-    private long id;
+    private Long id;
     private String type;
     private String elem;
     private String dataname;

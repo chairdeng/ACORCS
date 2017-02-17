@@ -14,17 +14,13 @@ import lombok.Data;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class WniEntity<T extends Geometry> {
+public abstract class WniEntity<T extends Geometry> extends GeometryEntity<T> {
     @JsonIgnore
-    private long id;
+    private Long id;
     private String header;
     @JsonIgnore
     private long noticeId;
     private Notice notice;
-
-    @JsonSerialize(using = GeometrySerializer.class)
-    @JsonDeserialize(using = GeometryDeserializer.class)
-    private T geographic;
 
     public abstract String getContentsKind();
 }
