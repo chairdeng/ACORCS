@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-02-18 19:03:42
+Date: 2017-02-18 19:16:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,6 +23,7 @@ CREATE TABLE `custom_restricted_area` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(32) DEFAULT NULL,
   `level` smallint(6) DEFAULT NULL,
+  `geographic` polygon DEFAULT NULL,
   `basetime` timestamp NULL DEFAULT NULL,
   `validtime` timestamp NULL DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

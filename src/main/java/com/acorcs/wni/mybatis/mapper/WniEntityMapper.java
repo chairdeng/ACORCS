@@ -8,7 +8,7 @@ import java.util.List;
  * Created by dengc on 2016/12/11.
  */
 public interface WniEntityMapper<T> {
-    public int save(T t);
+    Long save(T t);
 
-    public List<T> findByNoticeId(long noticeId);
+    List<T> findByNoticeId(long noticeId);
 }

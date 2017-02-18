@@ -8,9 +8,11 @@ import org.geotools.geojson.geom.GeometryJSON;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
@@ -33,7 +35,13 @@ public class GeometryArgumentResolver implements HandlerMethodArgumentResolver {
         String parameter = nativeWebRequest.getParameter(parameterName);
         GeometryJSON geoJson = new GeometryJSON();
         Reader reader = new StringReader(parameter);
-        Geometry geometry = geoJson.read(reader);
+        Geometry geometry = null;
+        try{
+            geometry = geoJson.read(reader);
+        }catch (IOException e){
+            throw new MethodArgumentTypeMismatchException(parameter,methodParameter.getParameterType(),methodParameter.getParameterName(),methodParameter,e);
+        }
+
         geometry.setSRID(4326);
         return geometry;
     }

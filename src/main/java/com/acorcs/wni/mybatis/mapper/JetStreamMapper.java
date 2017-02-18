@@ -15,8 +15,8 @@ import java.util.List;
 public interface JetStreamMapper  extends WniEntityMapper<JetStream> {
     @Insert("INSERT INTO wni_jet_stream (notice_id,header,geographic) " +
             "VALUES (#{noticeId},#{header},GeomFromText(#{geographic},4326))")
-    @SelectKey(keyProperty = "id",resultType = long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
-    public int save(JetStream jetStream);
+    @SelectKey(keyProperty = "id",resultType = Long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
+    Long save(JetStream jetStream);
 
     @Cacheable(key = "#noticeId")
     @Select("select id,notice_id,header,AsBinary(geographic) as geographic from wni_jet_stream where notice_id=#{noticeId}")
@@ -24,5 +24,5 @@ public interface JetStreamMapper  extends WniEntityMapper<JetStream> {
             @Result(property = "notice",column = "notice_id",one = @One(select = "com.acorcs.wni.mybatis.mapper.NoticeMapper.getNotice")),
             @Result(property = "noticeId",column = "notice_id")
     })
-    public List<JetStream> findByNoticeId(Long noticeId);
+    List<JetStream> findByNoticeId(Long noticeId);
 }

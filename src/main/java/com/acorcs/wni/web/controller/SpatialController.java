@@ -1,6 +1,8 @@
 package com.acorcs.wni.web.controller;
 
 
+import com.acorcs.wni.entity.CustomCircleArea;
+import com.acorcs.wni.entity.CustomRestrictedArea;
 import com.acorcs.wni.entity.WniEntity;
 import com.acorcs.wni.service.AffectedService;
 import com.vividsolutions.jts.geom.Geometry;
@@ -24,8 +26,12 @@ public class SpatialController {
         }
         return affectedService.findAffectWni(geometry,queryTime);
     }
-    @RequestMapping(path = "/geometry/polygen")
-    public String custom(Polygon polygen, @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date basetime,@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date validtime){
+    @RequestMapping(path = "/geometry/polygen",method = RequestMethod.POST)
+    public String custom(@RequestBody CustomRestrictedArea customRestrictedArea){
+        return null;
+    }
+    @RequestMapping(path = "/geometry/circle",method = RequestMethod.POST)
+    public String custom(@RequestBody CustomCircleArea customCircleArea){
         return null;
     }
 }

@@ -15,8 +15,8 @@ import java.util.List;
 public interface StormCenterMapper extends WniEntityMapper<StormCenter> {
     @Insert("INSERT INTO wni_storm_center (notice_id,header,storm_name,type,geographic) " +
             "VALUES (#{noticeId},#{header},#{stormName},#{type},GeomFromText(#{geographic},4326))")
-    @SelectKey(keyProperty = "id",resultType = long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
-    public int save(StormCenter stormCenter);
+    @SelectKey(keyProperty = "id",resultType = Long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
+    Long save(StormCenter stormCenter);
 
     @Cacheable(key = "#noticeId")
     @Select("select id,notice_id,header,storm_name,type,AsBinary(geographic) as geographic from wni_storm_center where notice_id=#{noticeId}")
@@ -24,5 +24,5 @@ public interface StormCenterMapper extends WniEntityMapper<StormCenter> {
             @Result(property = "notice",column = "notice_id",one = @One(select = "com.acorcs.wni.mybatis.mapper.NoticeMapper.getNotice")),
             @Result(property = "noticeId",column = "notice_id")
     })
-    public List<StormCenter> findByNoticeId(Long noticeId);
+    List<StormCenter> findByNoticeId(Long noticeId);
 }

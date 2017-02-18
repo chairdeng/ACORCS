@@ -16,8 +16,8 @@ public interface CloudMapper extends WniEntityMapper<Cloud> {
             " (header, notice_id,cloud_distribution, cloud_type,altitudes, airframe_icing,extended_degree, geographic)" +
             "VALUES (#{header}, #{noticeId},#{cloudDistribution}, #{cloudType},#{altitudes}, " +
             "#{airframeIcing},#{extendedDegree}, GeomFromText(#{geographic},4326))")
-    @SelectKey(keyProperty = "id",resultType = long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
-    public int save(Cloud cloud);
+    @SelectKey(keyProperty = "id",resultType = Long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
+    Long save(Cloud cloud);
 
 
     @Cacheable(key = "#noticeId")
@@ -26,5 +26,5 @@ public interface CloudMapper extends WniEntityMapper<Cloud> {
         @Result(property = "notice",column = "notice_id",one = @One(select = "com.acorcs.wni.mybatis.mapper.NoticeMapper.getNotice")),
         @Result(property = "noticeId",column = "notice_id")
     })
-    public List<Cloud> findByNoticeId(Long noticeId);
+    List<Cloud> findByNoticeId(Long noticeId);
 }

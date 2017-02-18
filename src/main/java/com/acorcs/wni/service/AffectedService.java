@@ -1,5 +1,6 @@
 package com.acorcs.wni.service;
 
+import com.acorcs.wni.entity.GeometryEntity;
 import com.acorcs.wni.entity.Notice;
 import com.acorcs.wni.entity.WniEntity;
 import com.acorcs.wni.mybatis.mapper.*;
@@ -30,31 +31,33 @@ public class AffectedService {
     @Autowired
     private NoticeMapper noticeMapper;
     @Autowired
+    private CustomRestrictedAreaMapper customRestrictedAreaMapper;
+    @Autowired
     private ApplicationContext applicationContext;
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
 
     static final Logger logger = LoggerFactory.getLogger(AffectedService.class);
 
-    public List<WniEntity> findAffectWni(Geometry geometry, Date queryTime){
-        List<WniEntity> result = new ArrayList<>();
+    public List<GeometryEntity> findAffectWni(Geometry geometry, Date queryTime){
+        List<GeometryEntity> result = new ArrayList<>();
         List<Notice> notices = noticeMapper.getValidNotice(queryTime);
-        List<Future<List<WniEntity>>> futures = new ArrayList<>();
+        List<Future<List<GeometryEntity>>> futures = new ArrayList<>();
         logger.debug("查询到notice共{}条",notices.size());
         for(Notice notice:notices){
             List<Class> childrenMapper = ClassUtil.getAllClassByInterface(WniEntityMapper.class);
             for(Class mapper:childrenMapper){
                 WniEntityMapper wniEntityMapper = (WniEntityMapper)applicationContext.getBean(mapper);
-                List<WniEntity> entities = wniEntityMapper.findByNoticeId(notice.getId());
+                List<GeometryEntity> entities = wniEntityMapper.findByNoticeId(notice.getId());
 
                 logger.debug("{}通过notice[{}]查询到{}条entity",mapper.getSimpleName(),notice.getId(),entities.size());
 
-                Callable<List<WniEntity>> task = new Callable<List<WniEntity>>(){
+                Callable<List<GeometryEntity>> task = new Callable<List<GeometryEntity>>(){
                     @Override
-                    public List<WniEntity> call() throws Exception {
+                    public List<GeometryEntity> call() throws Exception {
 
-                        List<WniEntity> taskResult = new ArrayList<WniEntity>();
-                        for(WniEntity entity:entities){
+                        List<GeometryEntity> taskResult = new ArrayList<GeometryEntity>();
+                        for(GeometryEntity entity:entities){
 
                             if(entity.getGeographic()==null){
                                 break;
@@ -76,12 +79,13 @@ public class AffectedService {
                     }
                 };
 
-                Future<List<WniEntity>> future = taskExecutor.submit(task);
+                Future<List<GeometryEntity>> future = taskExecutor.submit(task);
                 futures.add(future);
             }
         }
+        //TODO:增加自定义区域查询
         try {
-            for(Future<List<WniEntity>> future :futures){
+            for(Future<List<GeometryEntity>> future :futures){
 
                 result.addAll(future.get());
             }

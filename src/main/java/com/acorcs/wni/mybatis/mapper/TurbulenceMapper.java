@@ -16,8 +16,8 @@ public interface TurbulenceMapper  extends WniEntityMapper<Turbulence> {
     @Insert("INSERT INTO wni_turbulence (notice_id,header,extended_degree,altitudes,geographic)" +
             " VALUES (#{noticeId},#{header},#{extendedDegree}," +
             "#{altitudes},GeomFromText(#{geographic},4326))")
-    @SelectKey(keyProperty = "id",resultType = long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
-    public int save(Turbulence turbulence);
+    @SelectKey(keyProperty = "id",resultType = Long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
+    Long save(Turbulence turbulence);
 
     @Cacheable(key = "#noticeId")
     @Select("SELECT id,notice_id,header,extended_degree,altitudes,AsBinary(geographic) as geographic FROM wni_turbulence WHERE notice_id=#{noticeId}")
@@ -25,5 +25,5 @@ public interface TurbulenceMapper  extends WniEntityMapper<Turbulence> {
             @Result(property = "notice",column = "notice_id",one = @One(select = "com.acorcs.wni.mybatis.mapper.NoticeMapper.getNotice")),
             @Result(property = "noticeId",column = "notice_id")
     })
-    public List<Turbulence> findByNoticeId(Long noticeId);
+    List<Turbulence> findByNoticeId(Long noticeId);
 }
