@@ -16,7 +16,7 @@ public interface NoticeMapper {
     @Insert("insert into wni_notice (type,elem,dataname,updated,basetime,validtime,json) " +
             "values (#{type},#{elem},#{dataname},#{updated},#{basetime},#{validtime},#{json})")
     @SelectKey(keyProperty = "id",resultType = long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
-    public int save(Notice notice);
+    public Long save(Notice notice);
 
     @Select("SELECT id,type,elem,dataname,updated,basetime,validtime FROM wni_notice WHERE id=#{noticeId}")
     public Notice getNotice(long noticdId);

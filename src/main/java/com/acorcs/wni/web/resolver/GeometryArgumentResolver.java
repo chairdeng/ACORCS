@@ -20,7 +20,8 @@ import java.io.StringReader;
 public class GeometryArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
-        if (methodParameter.getParameterType().equals(Geometry.class)) {
+        if (methodParameter.getParameterType().equals(Geometry.class)
+                || methodParameter.getParameterType().isAssignableFrom(Geometry.class)) {
             return true;
         }
         return false;

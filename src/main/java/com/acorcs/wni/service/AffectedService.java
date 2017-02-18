@@ -8,6 +8,8 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiPoint;
 import com.vividsolutions.jts.geom.Point;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -32,15 +34,21 @@ public class AffectedService {
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
 
+    static final Logger logger = LoggerFactory.getLogger(AffectedService.class);
+
     public List<WniEntity> findAffectWni(Geometry geometry, Date queryTime){
         List<WniEntity> result = new ArrayList<>();
         List<Notice> notices = noticeMapper.getValidNotice(queryTime);
         List<Future<List<WniEntity>>> futures = new ArrayList<>();
+        logger.debug("查询到notice共{}条",notices.size());
         for(Notice notice:notices){
             List<Class> childrenMapper = ClassUtil.getAllClassByInterface(WniEntityMapper.class);
             for(Class mapper:childrenMapper){
                 WniEntityMapper wniEntityMapper = (WniEntityMapper)applicationContext.getBean(mapper);
                 List<WniEntity> entities = wniEntityMapper.findByNoticeId(notice.getId());
+
+                logger.debug("{}通过notice[{}]查询到{}条entity",mapper.getSimpleName(),notice.getId(),entities.size());
+
                 Callable<List<WniEntity>> task = new Callable<List<WniEntity>>(){
                     @Override
                     public List<WniEntity> call() throws Exception {
@@ -53,10 +61,12 @@ public class AffectedService {
                             }
                             if(geometry instanceof Point || geometry instanceof MultiPoint){
                                 if(entity.getGeographic().contains(geometry)){
+                                    logger.debug("确定一个匹配entity[{}]",entity.getId());
                                     taskResult.add(entity);
                                 }
                             }else if(geometry instanceof LineString){
                                 if(entity.getGeographic().intersects(geometry)){
+                                    logger.debug("确定一个匹配entity[{}]",entity.getId());
                                     taskResult.add(entity);
                                 }
                             }
@@ -72,8 +82,10 @@ public class AffectedService {
         }
         try {
             for(Future<List<WniEntity>> future :futures){
+
                 result.addAll(future.get());
             }
+            logger.debug("共获取到{}条匹配entity",result.size());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
