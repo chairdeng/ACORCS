@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.vividsolutions.jts.geom.Geometry;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by dengchao5 on 2017/2/17.
  */
@@ -19,6 +21,7 @@ public abstract class GeometryEntity<T extends Geometry> {
     private Long id;
     @JsonSerialize(using = GeometrySerializer.class)
     @JsonDeserialize(using = GeometryDeserializer.class)
+    @NotNull(message="{geographic.notnull.message}")
     private T geographic;
 
     public abstract String getContentsKind();

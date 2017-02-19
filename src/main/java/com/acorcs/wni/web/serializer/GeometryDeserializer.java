@@ -19,9 +19,14 @@ public class GeometryDeserializer extends JsonDeserializer<Geometry> {
     @Override
     public Geometry deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonToken currentToken = jsonParser.getCurrentToken();
-        String json = jsonParser.getText();
+        StringBuffer json = new StringBuffer();
+        while (currentToken != JsonToken.END_OBJECT){
+            json.append(jsonParser.getText());
+            currentToken = jsonParser.nextToken();
+        }
+        System.out.println(json);
         GeometryJSON geoJson = new GeometryJSON();
-        Reader reader = new StringReader(json);
+        Reader reader = new StringReader(json.toString());
         Geometry geometry = geoJson.read(reader);
         geometry.setSRID(4326);
         jsonParser.nextToken();

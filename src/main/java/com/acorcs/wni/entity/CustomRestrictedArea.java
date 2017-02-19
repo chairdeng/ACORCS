@@ -3,7 +3,11 @@ package com.acorcs.wni.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vividsolutions.jts.geom.Polygon;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -11,10 +15,14 @@ import java.util.Date;
  */
 @Data
 public class CustomRestrictedArea extends GeometryEntity<Polygon> {
+    @NotBlank
     private String code;
-    private Short level;
+    @Max(20)
+    private Integer level = 1;
+    @NotNull(message="basetime.notnull.message")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date basetime;
+    @NotNull(message="{validtime.notnull.message}")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date validtime;
 

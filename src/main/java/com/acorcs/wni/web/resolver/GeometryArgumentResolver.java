@@ -33,12 +33,15 @@ public class GeometryArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
         String parameterName = methodParameter.getParameterName();
         String parameter = nativeWebRequest.getParameter(parameterName);
+        if(parameter == null){
+            return null;
+        }
         GeometryJSON geoJson = new GeometryJSON();
-        Reader reader = new StringReader(parameter);
         Geometry geometry = null;
         try{
+            Reader reader = new StringReader(parameter);
             geometry = geoJson.read(reader);
-        }catch (IOException e){
+        }catch (IOException | NullPointerException e){
             throw new MethodArgumentTypeMismatchException(parameter,methodParameter.getParameterType(),methodParameter.getParameterName(),methodParameter,e);
         }
 
