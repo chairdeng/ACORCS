@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-02-18 19:16:33
+Date: 2017-02-19 11:39:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,5 +27,7 @@ CREATE TABLE `custom_restricted_area` (
   `basetime` timestamp NULL DEFAULT NULL,
   `validtime` timestamp NULL DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`) USING BTREE,
+  KEY `basetime` (`basetime`,`validtime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

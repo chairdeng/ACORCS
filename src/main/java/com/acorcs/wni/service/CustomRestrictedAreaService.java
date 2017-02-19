@@ -6,7 +6,6 @@ import com.acorcs.wni.entity.CustomRestrictedArea;
 import com.acorcs.wni.mybatis.mapper.CustomRestrictedAreaMapper;
 import com.vividsolutions.jts.geom.*;
 import org.geotools.geometry.jts.JTS;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.geotools.referencing.CRS;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;

@@ -1,8 +1,8 @@
 package com.acorcs.wni.service;
 
+import com.acorcs.wni.entity.CustomRestrictedArea;
 import com.acorcs.wni.entity.GeometryEntity;
 import com.acorcs.wni.entity.Notice;
-import com.acorcs.wni.entity.WniEntity;
 import com.acorcs.wni.mybatis.mapper.*;
 import com.acorcs.wni.utils.ClassUtil;
 import com.vividsolutions.jts.geom.Geometry;
@@ -37,7 +37,7 @@ public class AffectedService {
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
 
-    static final Logger logger = LoggerFactory.getLogger(AffectedService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AffectedService.class);
 
     public List<GeometryEntity> findAffectWni(Geometry geometry, Date queryTime){
         List<GeometryEntity> result = new ArrayList<>();
@@ -52,51 +52,51 @@ public class AffectedService {
 
                 logger.debug("{}通过notice[{}]查询到{}条entity",mapper.getSimpleName(),notice.getId(),entities.size());
 
-                Callable<List<GeometryEntity>> task = new Callable<List<GeometryEntity>>(){
-                    @Override
-                    public List<GeometryEntity> call() throws Exception {
-
-                        List<GeometryEntity> taskResult = new ArrayList<GeometryEntity>();
-                        for(GeometryEntity entity:entities){
-
-                            if(entity.getGeographic()==null){
-                                break;
-                            }
-                            if(geometry instanceof Point || geometry instanceof MultiPoint){
-                                if(entity.getGeographic().contains(geometry)){
-                                    logger.debug("确定一个匹配entity[{}]",entity.getId());
-                                    taskResult.add(entity);
-                                }
-                            }else if(geometry instanceof LineString){
-                                if(entity.getGeographic().intersects(geometry)){
-                                    logger.debug("确定一个匹配entity[{}]",entity.getId());
-                                    taskResult.add(entity);
-                                }
-                            }
-
-                        }
-                        return taskResult;
-                    }
-                };
+                Callable<List<GeometryEntity>> task = () -> findCross(geometry,entities);
 
                 Future<List<GeometryEntity>> future = taskExecutor.submit(task);
                 futures.add(future);
             }
         }
-        //TODO:增加自定义区域查询
+        Callable<List<GeometryEntity>> task = () -> {
+            List<CustomRestrictedArea> entities =  customRestrictedAreaMapper.findValid(queryTime);
+            return findCross(geometry,entities);
+        };
+        Future<List<GeometryEntity>> f = taskExecutor.submit(task);
+        futures.add(f);
         try {
             for(Future<List<GeometryEntity>> future :futures){
 
                 result.addAll(future.get());
             }
             logger.debug("共获取到{}条匹配entity",result.size());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
         return result;
+    }
+    private <T extends GeometryEntity> List<GeometryEntity> findCross(Geometry geometry,List<T> entities){
+        List<GeometryEntity> taskResult = new ArrayList<>();
+        for(GeometryEntity entity:entities){
+
+            if(entity.getGeographic()==null){
+                break;
+            }
+            if(geometry instanceof Point || geometry instanceof MultiPoint){
+                if(entity.getGeographic().contains(geometry)){
+                    logger.debug("确定一个匹配entity[{}]",entity.getId());
+                    taskResult.add(entity);
+                }
+            }else if(geometry instanceof LineString){
+                if(entity.getGeographic().intersects(geometry)){
+                    logger.debug("确定一个匹配entity[{}]",entity.getId());
+                    taskResult.add(entity);
+                }
+            }
+
+        }
+        return taskResult;
     }
 
 }
