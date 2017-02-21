@@ -7,7 +7,7 @@ import com.google.gson.*;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
-import jdk.nashorn.internal.runtime.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * Created by 邓超 on 2016/12/12.
  */
 @Component
-@Logger
+@Slf4j
 public class JetStreamResolver implements IResolver<JetStream> {
     @Autowired
     private JetStreamMapper jetStreamMapper;

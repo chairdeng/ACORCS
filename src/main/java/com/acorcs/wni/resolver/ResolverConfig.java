@@ -1,6 +1,6 @@
 package com.acorcs.wni.resolver;
 
-import jdk.nashorn.internal.runtime.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -19,7 +19,7 @@ import java.util.List;
  * Created by 邓超 on 2016/12/12.
  */
 @Component
-@Logger
+@Slf4j
 @CacheConfig(cacheNames="resolvers")
 public class ResolverConfig {
     @Value("classpath:config/resolver_config.xml")
