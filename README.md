@@ -165,6 +165,6 @@ Content-Type application/json;charset=UTF-8
 
 ## 错误码
 
-HttpStatus:200请求正确响应。
-HttpStatus:400错误的请求，具体错误见返回报文中的code及message，返回报文code：0001数据校验错误，错误字段及原因详细见message，0002：数据格式错误，错误字段及原因见message，0003，唯一键约束错误，如创建请求中的code需要唯一。
-HttpStatus:500服务器内部未知错误，返回报文code为9999
+* HttpStatus:200请求正确响应。
+* HttpStatus:400错误的请求，具体错误见返回报文中的code及message，返回报文code：0001数据校验错误，错误字段及原因详细见message，0002：数据格式错误，错误字段及原因见message，0003，唯一键约束错误，如创建请求中的code需要唯一。
+* HttpStatus:500服务器内部未知错误，返回报文code为9999
