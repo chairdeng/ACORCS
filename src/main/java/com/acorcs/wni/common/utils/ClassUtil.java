@@ -1,4 +1,4 @@
-package com.acorcs.wni.utils;
+package com.acorcs.wni.common.utils;
 
 /**
  * Created by dengc on 2017/1/2.

@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
 @SpringBootApplication
-//@EnableRabbit
+@EnableRabbit
 @EnableCaching
 @MapperScan("com.acorcs.wni.mybatis.mapper")
 public class AcorcsWniApplication {

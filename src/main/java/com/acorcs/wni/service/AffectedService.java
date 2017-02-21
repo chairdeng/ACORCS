@@ -4,7 +4,7 @@ import com.acorcs.wni.entity.CustomRestrictedArea;
 import com.acorcs.wni.entity.GeometryEntity;
 import com.acorcs.wni.entity.Notice;
 import com.acorcs.wni.mybatis.mapper.*;
-import com.acorcs.wni.utils.ClassUtil;
+import com.acorcs.wni.common.utils.ClassUtil;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiPoint;
