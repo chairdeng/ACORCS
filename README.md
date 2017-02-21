@@ -69,23 +69,102 @@ http://{部署服务器IP地址}:{部署端口默认8080}/spatial/affected
 * TURBULENCE 包含字段extendedDegree（String），altitudes（int数组）
 * VOLCANO 包含字段featureName（String），timeSignificance（String），specialClouds（String）
 
-### 错误码
-
-HttpStatus:200以外所有码都为错误。
-
 ### 调用事例
 
 1. GET方式调用
 >http://localhost:8080/spatial/affected?geometry={ "type": "Point", "coordinates": [42.44, 18.6] }&queryTime=2016-01-15 13:00:00
 
 ## 自定义限制
-
+* 返回数据增加contentsKind为CUSTOM的自定义类型
+* CUSTOM具有属性code（String）；level（int）；basetime（yyyy-MM-dd HH:mm:ss），validtime（yyyy-MM-dd HH:mm:ss）
 ### 调用方式
 
 仅支持POST请求
 
 ### 请求地址
 
-http://{部署服务器IP地址}:{部署端口默认8080}/spatial/geometry/polygen
+http://{部署服务器IP地址}:{部署端口默认8080}/spatial/geometry/polygen 多边形限制区创建
+http://{部署服务器IP地址}:{部署端口默认8080}/spatial/geometry/circle 圆形限制区创建
 
-http://{部署服务器IP地址}:{部署端口默认8080}/spatial/geometry/circle
+### 编码方式
+
+Content-Type application/json;charset=UTF-8
+
+### 请求内容（RequestBody）
+* 多边形区域创建
+```json
+{
+    "code": "123123123",
+    "level": 1,
+    "validtime":"2019-02-19 12:00:00",
+    "basetime":"2017-02-19 12:00:00",
+    "geographic": {
+        "coordinates": [
+            [
+                [
+                    6.53,
+                    85.61
+                ],
+                [
+                    6.82,
+                    84.06
+                ],
+                [
+                    9.38,
+                    81.6
+                ],
+                [
+                    9.14,
+                    79.86
+                ],
+                [
+                    5.69,
+                    80.58
+                ],
+                [
+                    4.56,
+                    82.44
+                ],
+                [
+                    5.51,
+                    85.79
+                ],
+                [
+                    6.53,
+                    85.61
+                ]
+            ]
+        ],
+        "type": "Polygon"
+    }
+}
+```
+
+* 圆形区域创建
+
+```json
+{
+    "code": "123123124",
+    "level": 1,
+    "validtime":"2019-02-19 12:00:00",
+    "basetime":"2017-02-19 12:00:00",
+    "center": {
+        "coordinates": [
+            [
+                [
+                    6.53,
+                    85.61
+                ]
+            ]
+        ],
+        "type": "Point"
+    },
+    "radius":12.00
+}
+```
+
+## 错误码
+
+HttpStatus:200请求正确响应。
+HttpStatus:400错误的请求，具体错误见返回报文中的code及message，返回报文code：0001数据校验错误，错误字段及原因详细见message，0002：数据格式错误，错误字段及原因见message，0003，唯一键约束错误，如创建请求中的code需要唯一。
+HttpStatus:500服务器内部未知错误，返回报文code为9999
