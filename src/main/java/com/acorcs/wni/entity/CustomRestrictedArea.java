@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -18,6 +19,7 @@ public class CustomRestrictedArea extends GeometryEntity<Polygon> {
     @NotBlank
     private String code;
     @Max(20)
+    @Min(1)
     private Integer level = 1;
     @NotNull(message="basetime.notnull.message")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

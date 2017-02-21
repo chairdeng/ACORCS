@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface CustomRestrictedAreaMapper {
     @Insert("INSERT INTO custom_restricted_area (code,level,geographic,basetime,validtime) " +
-            "VALUES (#{code},#{level},GeomFromText(#{geographic},4326)),#{basetime},#{validtime}")
+            "VALUES (#{code},#{level},GeomFromText(#{geographic},4326),#{basetime},#{validtime})")
     @SelectKey(keyProperty = "id",resultType = Long.class,before = false,statement = "SELECT LAST_INSERT_ID() AS id")
     Long save(CustomRestrictedArea customRestrictedArea);
     @Select("SELECT id,code,level,geographic,basetime,validtime FROM custom_restricted_area WHERE #{queryTime} BETWEEN basetime AND validtime")

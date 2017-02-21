@@ -24,6 +24,7 @@ public class CustomCircleArea {
     @Size(min = 1,max = 32)
     private String code;
     @Max(20)
+    @Min(1)
     private Integer level = 1;
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
