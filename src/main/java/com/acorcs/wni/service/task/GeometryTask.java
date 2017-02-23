@@ -32,12 +32,12 @@ public class GeometryTask {
             }
             if(geometry instanceof Point || geometry instanceof MultiPoint){
                 if(entity.getGeographic().contains(geometry)){
-                    log.debug("确定一个匹配entity[{}]",entity.getId());
+                    log.debug("find a entity[{}]",entity.getId());
                     taskResult.add(entity);
                 }
             }else if(geometry instanceof LineString){
                 if(entity.getGeographic().intersects(geometry)){
-                    log.debug("确定一个匹配entity[{}]",entity.getId());
+                    log.debug("find a entity[{}]",entity.getId());
                     taskResult.add(entity);
                 }
             }
