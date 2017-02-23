@@ -7,14 +7,14 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 /**
  * Created by dengc on 2017/1/2.
  */
-@Configuration
+//@Configuration
 public class TaskExecutorConfig {
-    @Bean
-    public ThreadPoolTaskExecutor taskExecutor(){
-        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(6);
-        taskExecutor.setMaxPoolSize(12);
-        taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
-        return taskExecutor;
-    }
+//    @Bean
+//    public ThreadPoolTaskExecutor taskExecutor(){
+//        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+//        taskExecutor.setCorePoolSize(6);
+//        taskExecutor.setMaxPoolSize(12);
+//        taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
+//        return taskExecutor;
+//    }
 }
