@@ -32,17 +32,17 @@ public class GeometryTask {
             }
             if(geometry instanceof Point || geometry instanceof MultiPoint){
                 if(entity.getGeographic().contains(geometry)){
-                    log.debug("find a entity[{}]",entity.getId());
+
                     taskResult.add(entity);
                 }
             }else if(geometry instanceof LineString){
                 if(entity.getGeographic().intersects(geometry)){
-                    log.debug("find a entity[{}]",entity.getId());
+
                     taskResult.add(entity);
                 }
             }
 
         }
-        return new AsyncResult<List<GeometryEntity>>(taskResult);
+        return new AsyncResult<>(taskResult);
     }
 }

@@ -39,59 +39,37 @@ public class AffectedService {
         List<GeometryEntity> result = new ArrayList<>();
         List<Notice> notices = noticeMapper.getValidNotice(queryTime);
         List<Future<List<GeometryEntity>>> futures = new ArrayList<>();
-        log.debug("find {} notices",notices.size());
+
         for(Notice notice:notices){
             List<Class> childrenMapper = ClassUtil.getAllClassByInterface(WniEntityMapper.class);
+
             for(Class mapper:childrenMapper){
                 WniEntityMapper wniEntityMapper = (WniEntityMapper)applicationContext.getBean(mapper);
                 List<GeometryEntity> entities = wniEntityMapper.findByNoticeId(notice.getId());
 
-                log.debug("find {} entities by notice {} mapper: {}",entities.size(),notice.getId(),mapper.getSimpleName());
 
                 Future<List<GeometryEntity>> future = geometryTask.findCross(geometry,entities);
                 futures.add(future);
             }
         }
-//        Callable<List<GeometryEntity>> task = () -> {
-//            List<CustomRestrictedArea> entities =  customRestrictedAreaMapper.findValid(queryTime);
-//            return findCross(geometry,entities);
-//        };
+
         List<CustomRestrictedArea> entities =  customRestrictedAreaMapper.findValid(queryTime);
         Future<List<GeometryEntity>> f = geometryTask.findCross(geometry,entities);
         futures.add(f);
         try {
+
             for(Future<List<GeometryEntity>> future :futures){
 
                 result.addAll(future.get());
             }
-            log.debug("count {} entitis",result.size());
+
         } catch (InterruptedException | ExecutionException e) {
+            log.error("异步任务异常：",e);
             e.printStackTrace();
         }
 
         return result;
     }
-//    private <T extends GeometryEntity> List<GeometryEntity> findCross(Geometry geometry,List<T> entities){
-//        List<GeometryEntity> taskResult = new ArrayList<>();
-//        for(GeometryEntity entity:entities){
-//
-//            if(entity.getGeographic()==null){
-//                break;
-//            }
-//            if(geometry instanceof Point || geometry instanceof MultiPoint){
-//                if(entity.getGeographic().contains(geometry)){
-//                    log.debug("确定一个匹配entity[{}]",entity.getId());
-//                    taskResult.add(entity);
-//                }
-//            }else if(geometry instanceof LineString){
-//                if(entity.getGeographic().intersects(geometry)){
-//                    log.debug("确定一个匹配entity[{}]",entity.getId());
-//                    taskResult.add(entity);
-//                }
-//            }
-//
-//        }
-//        return taskResult;
-//    }
+
 
 }

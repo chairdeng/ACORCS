@@ -3,6 +3,8 @@ package com.acorcs.wni.common.utils;
 /**
  * Created by dengc on 2017/1/2.
  */
+import com.acorcs.wni.mybatis.mapper.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -23,23 +25,30 @@ public class ClassUtil {
     public static List<Class> getAllClassByInterface(Class c){
         List returnClassList = new ArrayList<Class>();
         //判断是不是接口,不是接口不作处理
-        if(c.isInterface()){
-            String packageName = c.getPackage().getName();	//获得当前包名
-            try {
-                List<Class> allClass = getClasses(packageName);//获得当前包以及子包下的所有类
-
-                //判断是否是一个接口
-                for(int i = 0; i < allClass.size(); i++){
-                    if(c.isAssignableFrom(allClass.get(i))){
-                        if(!c.equals(allClass.get(i))){
-                            returnClassList.add(allClass.get(i));
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-        }
+        returnClassList.add(CloudMapper.class);
+        returnClassList.add(JetStreamMapper.class);
+        returnClassList.add(StormCenterMapper.class);
+        returnClassList.add(TropopauseMapper.class);
+        returnClassList.add(TurbulenceMapper.class);
+        returnClassList.add(VolcanoMapper.class);
+        //TODO:缺陷不能写死
+//        if(c.isInterface()){
+//            String packageName = c.getPackage().getName();	//获得当前包名
+//            try {
+//                List<Class> allClass = getClasses(packageName);//获得当前包以及子包下的所有类
+//
+//                //判断是否是一个接口
+//                for(int i = 0; i < allClass.size(); i++){
+//                    if(c.isAssignableFrom(allClass.get(i))){
+//                        if(!c.equals(allClass.get(i))){
+//                            returnClassList.add(allClass.get(i));
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                // TODO: handle exception
+//            }
+//        }
         return returnClassList;
     }
 
