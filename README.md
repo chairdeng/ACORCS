@@ -77,9 +77,9 @@ http://{部署服务器IP地址}:{部署端口默认8080}/spatial/affected
 ## 自定义限制
 * 返回数据增加contentsKind为CUSTOM的自定义类型
 * CUSTOM具有属性code（String）；level（int）；basetime（yyyy-MM-dd HH:mm:ss），validtime（yyyy-MM-dd HH:mm:ss）
-### 调用方式
+### 调用方式 
 
-仅支持POST请求
+* 仅支持POST请求
 
 ### 请求地址
 
