@@ -33,7 +33,7 @@ public class TropopauseResolver implements IResolver<Tropopause>{
         Integer[] altitudes = new Integer[points.size()];
         for(int i=0;i<points.size();i++){
             JsonArray point = points.get(i).getAsJsonArray();
-            Coordinate coordinate = new Coordinate(point.get(0).getAsDouble(),point.get(1).getAsDouble(),point.get(2).getAsDouble());
+            Coordinate coordinate = new Coordinate(point.get(1).getAsDouble(),point.get(0).getAsDouble(),point.get(2).getAsDouble());
             coordinates[i] = coordinate;
             altitudes[i] = point.get(2).getAsInt();
         }

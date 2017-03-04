@@ -31,7 +31,7 @@ public class JetStreamResolver implements IResolver<JetStream> {
         Coordinate[] coordinates = new Coordinate[points.size()];
         for(int i=0;i<points.size();i++){
             JsonElement point = points.get(i);
-            Coordinate coordinate = new Coordinate(point.getAsJsonArray().get(0).getAsDouble(),point.getAsJsonArray().get(1).getAsDouble());
+            Coordinate coordinate = new Coordinate(point.getAsJsonArray().get(1).getAsDouble(),point.getAsJsonArray().get(0).getAsDouble());
             coordinates[i] = coordinate;
         }
         LineString lineString = geometryFactory.createLineString(coordinates);

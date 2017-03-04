@@ -46,28 +46,29 @@ public class AffectedService {
             for(Class mapper:childrenMapper){
                 WniEntityMapper wniEntityMapper = (WniEntityMapper)applicationContext.getBean(mapper);
                 List<GeometryEntity> entities = wniEntityMapper.findByNoticeId(notice.getId());
-
-
-                Future<List<GeometryEntity>> future = geometryTask.findCross(geometry,entities);
-                futures.add(future);
+                if(entities.size() > 0) {
+                    Future<List<GeometryEntity>> future = geometryTask.findCross(geometry, entities);
+                    futures.add(future);
+                }
             }
         }
 
         List<CustomRestrictedArea> entities =  customRestrictedAreaMapper.findValid(queryTime);
-        Future<List<GeometryEntity>> f = geometryTask.findCross(geometry,entities);
-        futures.add(f);
-        try {
+        if(entities.size() > 0) {
+            Future<List<GeometryEntity>> f = geometryTask.findCross(geometry, entities);
+            futures.add(f);
+            try {
 
-            for(Future<List<GeometryEntity>> future :futures){
+                for (Future<List<GeometryEntity>> future : futures) {
 
-                result.addAll(future.get());
+                    result.addAll(future.get());
+                }
+
+            } catch (InterruptedException | ExecutionException e) {
+                log.error("异步任务异常：", e);
+                e.printStackTrace();
             }
-
-        } catch (InterruptedException | ExecutionException e) {
-            log.error("异步任务异常：",e);
-            e.printStackTrace();
         }
-
         return result;
     }
 

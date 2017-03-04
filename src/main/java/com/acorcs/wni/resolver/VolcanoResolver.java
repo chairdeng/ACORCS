@@ -35,7 +35,7 @@ public class VolcanoResolver implements IResolver<Volcano> {
         JsonArray points = jsonObject.get("points").getAsJsonArray();
 //        volcano.setOriginal(points.toString());
         JsonArray point = points.get(0).getAsJsonArray();
-        volcano.setGeographic(geometryFactory.createPoint(new Coordinate(point.get(0).getAsDouble(),point.get(1).getAsDouble())));
+        volcano.setGeographic(geometryFactory.createPoint(new Coordinate(point.get(1).getAsDouble(),point.get(0).getAsDouble())));
         return volcano;
     }
 

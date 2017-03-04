@@ -56,7 +56,7 @@ public class CloudResolver implements IResolver<Cloud>{
         List<Coordinate> coordinates = new ArrayList<Coordinate>();
         for(JsonElement point:points){
 
-            Coordinate coordinate = new Coordinate(point.getAsJsonArray().get(0).getAsDouble(),point.getAsJsonArray().get(1).getAsDouble());
+            Coordinate coordinate = new Coordinate(point.getAsJsonArray().get(1).getAsDouble(),point.getAsJsonArray().get(0).getAsDouble());
             coordinates.add(coordinate);
         }
         if(!coordinates.get(0).equals(coordinates.get(coordinates.size()-1))){

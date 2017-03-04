@@ -33,7 +33,7 @@ public class StormCenterResolver implements IResolver<StormCenter> {
         JsonArray points = jsonObject.get("points").getAsJsonArray();
 //        stormCenter.setOriginal(points.toString());
         JsonArray point = points.get(0).getAsJsonArray();
-        stormCenter.setGeographic(geometryFactory.createPoint(new Coordinate(point.get(0).getAsDouble(),point.get(1).getAsDouble())));
+        stormCenter.setGeographic(geometryFactory.createPoint(new Coordinate(point.get(1).getAsDouble(),point.get(0).getAsDouble())));
         return stormCenter;
     }
 
