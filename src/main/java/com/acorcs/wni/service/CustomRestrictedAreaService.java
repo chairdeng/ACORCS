@@ -5,6 +5,7 @@ import com.acorcs.wni.entity.CustomCircleArea;
 import com.acorcs.wni.entity.CustomRestrictedArea;
 import com.acorcs.wni.mybatis.mapper.CustomRestrictedAreaMapper;
 import com.vividsolutions.jts.geom.*;
+import lombok.extern.slf4j.Slf4j;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.CRS;
 import org.opengis.referencing.FactoryException;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  * Created by dengc on 2017/2/18.
  */
 @Service
+@Slf4j
 public class CustomRestrictedAreaService {
     @Autowired
     private CustomRestrictedAreaMapper customRestrictedAreaMapper;
@@ -40,10 +42,9 @@ public class CustomRestrictedAreaService {
             pointTarget = (Point) JTS.transform(customCircleArea.getCenter(), transformWGS84);
             Polygon polygon = GeometryUtils.createCircle(pointTarget, customCircleArea.getRadius());
             polygonTarget = (Polygon) JTS.transform(polygon,transformWebMercator);
-        } catch (FactoryException e) {
-            e.printStackTrace();
-        } catch (TransformException e) {
-            e.printStackTrace();
+        } catch (FactoryException | TransformException e) {
+            log.error("转换发生错误：",e);
+//            e.printStackTrace();
         }
         CustomRestrictedArea customRestrictedArea = new CustomRestrictedArea();
         customRestrictedArea.setGeographic(polygonTarget);

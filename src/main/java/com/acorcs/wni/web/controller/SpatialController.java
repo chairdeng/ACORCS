@@ -37,11 +37,11 @@ public class SpatialController {
 
     public String custom(@Validated @RequestBody CustomRestrictedArea customRestrictedArea){
         customRestrictedAreaService.save(customRestrictedArea);
-        return "{message:\"ok\"}";
+        return "{\"message\":\"ok\"}";
     }
     @RequestMapping(path = "/geometry/circle",method = RequestMethod.POST)
     public String custom(@Validated @RequestBody CustomCircleArea customCircleArea){
         customRestrictedAreaService.save(customCircleArea);
-        return "{message:\"ok\"}";
+        return "{\"message\":\"ok\"}";
     }
 }
