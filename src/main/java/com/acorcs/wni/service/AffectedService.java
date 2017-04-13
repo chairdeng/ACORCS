@@ -42,10 +42,12 @@ public class AffectedService {
 
         for(Notice notice:notices){
             List<Class> childrenMapper = ClassUtil.getAllClassByInterface(WniEntityMapper.class);
-
             for(Class mapper:childrenMapper){
                 WniEntityMapper wniEntityMapper = (WniEntityMapper)applicationContext.getBean(mapper);
+//                log.info(mapper.getName());
+
                 List<GeometryEntity> entities = wniEntityMapper.findByNoticeId(notice.getId());
+                log.info(wniEntityMapper.getClass().getGenericInterfaces()[0].getTypeName()+"["+entities.size()+"]");
                 if(entities.size() > 0) {
                     Future<List<GeometryEntity>> future = geometryTask.findCross(geometry, entities);
                     futures.add(future);
