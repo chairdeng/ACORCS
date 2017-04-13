@@ -44,13 +44,13 @@ public class AffectedService {
             List<Class> childrenMapper = ClassUtil.getAllClassByInterface(WniEntityMapper.class);
             for(Class mapper:childrenMapper){
                 WniEntityMapper wniEntityMapper = (WniEntityMapper)applicationContext.getBean(mapper);
-//                log.info(mapper.getName());
 
                 List<GeometryEntity> entities = wniEntityMapper.findByNoticeId(notice.getId());
                 log.info(wniEntityMapper.getClass().getGenericInterfaces()[0].getTypeName()+"["+entities.size()+"]");
                 if(entities.size() > 0) {
                     Future<List<GeometryEntity>> future = geometryTask.findCross(geometry, entities);
                     futures.add(future);
+                    log.info("future size"+futures.size());
                 }
             }
         }
@@ -59,17 +59,20 @@ public class AffectedService {
         if(entities.size() > 0) {
             Future<List<GeometryEntity>> f = geometryTask.findCross(geometry, entities);
             futures.add(f);
-            try {
+            log.info("future size"+futures.size());
 
-                for (Future<List<GeometryEntity>> future : futures) {
+        }
+        try {
+            for (Future<List<GeometryEntity>> future : futures) {
 
-                    result.addAll(future.get());
-                }
-
-            } catch (InterruptedException | ExecutionException e) {
-                log.error("异步任务异常：", e);
-                e.printStackTrace();
+                List<GeometryEntity> geometryEntities = future.get();
+                log.info("GeometryEntity"+String.valueOf(geometryEntities.size()));
+                result.addAll(geometryEntities);
             }
+
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("异步任务异常：", e);
+            e.printStackTrace();
         }
         return result;
     }

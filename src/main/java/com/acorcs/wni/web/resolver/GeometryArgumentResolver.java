@@ -1,6 +1,7 @@
 package com.acorcs.wni.web.resolver;
 
 import com.vividsolutions.jts.geom.Geometry;
+import lombok.extern.slf4j.Slf4j;
 import org.geotools.geojson.GeoJSON;
 import org.geotools.geojson.GeoJSONUtil;
 import org.geotools.geojson.feature.FeatureJSON;
@@ -19,6 +20,7 @@ import java.io.StringReader;
 /**
  * Created by dengc on 2017/1/2.
  */
+@Slf4j
 public class GeometryArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
@@ -42,6 +44,7 @@ public class GeometryArgumentResolver implements HandlerMethodArgumentResolver {
             Reader reader = new StringReader(parameter);
             geometry = geoJson.read(reader);
         }catch (IOException | NullPointerException e){
+            log.error("参数格式不正确：",e);
             throw new MethodArgumentTypeMismatchException(parameter,methodParameter.getParameterType(),methodParameter.getParameterName(),methodParameter,e);
         }
 
