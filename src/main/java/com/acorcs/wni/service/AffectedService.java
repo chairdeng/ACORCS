@@ -46,7 +46,7 @@ public class AffectedService {
                 WniEntityMapper wniEntityMapper = (WniEntityMapper)applicationContext.getBean(mapper);
 
                 List<GeometryEntity> entities = wniEntityMapper.findByNoticeId(notice.getId());
-                log.info(wniEntityMapper.getClass().getGenericInterfaces()[0].getTypeName()+"["+entities.size()+"]");
+
                 if(entities.size() > 0) {
                     Future<List<GeometryEntity>> future = geometryTask.findCross(geometry, entities);
                     futures.add(future);
