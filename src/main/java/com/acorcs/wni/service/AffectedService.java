@@ -50,7 +50,7 @@ public class AffectedService {
                 if(entities.size() > 0) {
                     Future<List<GeometryEntity>> future = geometryTask.findCross(geometry, entities);
                     futures.add(future);
-                    log.info("future size"+futures.size());
+
                 }
             }
         }
@@ -59,14 +59,14 @@ public class AffectedService {
         if(entities.size() > 0) {
             Future<List<GeometryEntity>> f = geometryTask.findCross(geometry, entities);
             futures.add(f);
-            log.info("future size"+futures.size());
+
 
         }
         try {
             for (Future<List<GeometryEntity>> future : futures) {
 
                 List<GeometryEntity> geometryEntities = future.get();
-                log.info("GeometryEntity"+String.valueOf(geometryEntities.size()));
+
                 result.addAll(geometryEntities);
             }
 
