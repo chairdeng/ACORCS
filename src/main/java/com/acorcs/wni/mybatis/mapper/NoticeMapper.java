@@ -1,10 +1,7 @@
 package com.acorcs.wni.mybatis.mapper;
 
 import com.acorcs.wni.entity.Notice;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.*;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +16,7 @@ public interface NoticeMapper {
     Long save(Notice notice);
 
     @Select("SELECT id,type,elem,dataname,updated,basetime,validtime FROM wni_notice WHERE id=#{noticeId}")
+    @ResultType(Notice.class)
     Notice getNotice(long noticdId);
 
     @Select("SELECT id,type,elem,dataname,updated,basetime,validtime FROM wni_notice WHERE #{queryTime} BETWEEN basetime AND validtime")
