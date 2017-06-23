@@ -22,10 +22,10 @@ public class CustomRestrictedArea extends GeometryEntity<Polygon> {
     @Min(1)
     private Integer level = 1;
     @NotNull(message="basetime.notnull.message")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date basetime;
     @NotNull(message="{validtime.notnull.message}")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date validtime;
 
     @Override

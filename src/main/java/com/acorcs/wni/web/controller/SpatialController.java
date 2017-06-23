@@ -31,7 +31,8 @@ public class SpatialController {
         if(queryTime == null){
             queryTime = new Date();
         }
-        return affectedService.findAffectWni(geometry,queryTime);
+        List<GeometryEntity> result = affectedService.findAffectWni(geometry,queryTime);
+        return result;
     }
     @RequestMapping(path = "/geometry/polygen",method = RequestMethod.POST)
 

@@ -27,10 +27,10 @@ public class CustomCircleArea {
     @Min(1)
     private Integer level = 1;
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date basetime;
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date validtime;
     //圆心
     @JsonSerialize(using = GeometrySerializer.class)
