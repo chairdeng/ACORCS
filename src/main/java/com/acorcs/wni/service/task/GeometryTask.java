@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
 @Service
 @Slf4j
 public class GeometryTask {
-    @Async
+    @Async("asyncExecutor")
     public  <T extends GeometryEntity> Future<List<GeometryEntity>> findCross(Geometry geometry, List<T> entities){
         List<GeometryEntity> taskResult = new ArrayList<>();
         for(GeometryEntity entity:entities){
