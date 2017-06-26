@@ -43,6 +43,7 @@ public class GeometryTask {
             }
 
         }
+        log.debug("geometry count:{}",taskResult.size());
         return new AsyncResult<>(taskResult);
     }
 }
