@@ -36,11 +36,11 @@ public class AffectedService {
 
 
     public List<GeometryEntity> findAffectWni(Geometry geometry, Date queryTime){
-        log.debug("geometry:{},queryTime{}",geometry,queryTime);
+//        log.debug("geometry:{},queryTime{}",geometry,queryTime);
         List<GeometryEntity> result = new ArrayList<>();
         List<Notice> notices = noticeMapper.getValidNotice(queryTime);
         List<Future<List<GeometryEntity>>> futures = new ArrayList<>();
-        log.debug("notice count:{}",notices.size());
+//        log.debug("notice count:{}",notices.size());
         for(Notice notice:notices){
             List<Class> childrenMapper = ClassUtil.getAllClassByInterface(WniEntityMapper.class);
             for(Class mapper:childrenMapper){
