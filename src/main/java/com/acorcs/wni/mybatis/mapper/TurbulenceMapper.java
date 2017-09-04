@@ -23,7 +23,8 @@ public interface TurbulenceMapper  extends WniEntityMapper<Turbulence> {
     @Select("SELECT id,notice_id,header,extended_degree,altitudes,AsBinary(geographic) as geographic FROM wni_turbulence WHERE notice_id=#{noticeId}")
     @Results({
             @Result(property = "notice",column = "notice_id",one = @One(select = "com.acorcs.wni.mybatis.mapper.NoticeMapper.getNotice")),
-            @Result(property = "noticeId",column = "notice_id")
+            @Result(property = "noticeId",column = "notice_id"),
+            @Result(property = "extendedDegree",column = "extended_degree")
     })
     List<Turbulence> findByNoticeId(Long noticeId);
 }
