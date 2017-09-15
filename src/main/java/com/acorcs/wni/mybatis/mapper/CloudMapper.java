@@ -24,7 +24,10 @@ public interface CloudMapper extends WniEntityMapper<Cloud> {
     @Select("SELECT id,notice_id,header,cloud_distribution,cloud_type,altitudes,airframe_icing,extended_degree,AsBinary(geographic) as geographic FROM wni_cloud WHERE notice_id=#{noticeId}")
     @Results({
         @Result(property = "notice",column = "notice_id",one = @One(select = "com.acorcs.wni.mybatis.mapper.NoticeMapper.getNotice")),
-        @Result(property = "noticeId",column = "notice_id")
+        @Result(property = "noticeId",column = "notice_id"),
+        @Result(property = "airframeIcing",column = "airframe_icing"),
+        @Result(property = "extendedDegree",column = "extended_degree")
+
     })
     List<Cloud> findByNoticeId(Long noticeId);
 }
